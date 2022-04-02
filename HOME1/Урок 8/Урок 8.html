@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 8. Задание 1-4</title>
+</head>
+<body>
+    <h2>Задание 1</h2>
+    <div id="test">
+        <a href="#">Ссылка</a>
+        <a href="#">Ссылка</a>
+        <a href="#">Ссылка</a>
+    </div>
+
+    <h2>Задание 2</h2>
+    <div>
+        <a class="www" href="#">Ссылка</a>
+        <a class="www" href="#">Ссылка</a>
+        <a class="www" href="#">Ссылка</a>
+    </div>
+
+    <h2>Задание 3</h2>
+    <div id="test">
+        <a class="www" href="#">Ссылка</a>
+        <a class="www" href="#">Ссылка</a>
+        <a class="www" href="#">Ссылка</a>
+    </div>
+
+    <h2>Задание 4</h2>
+    <div class="eee">
+        <a class="www" href="#">Ссылка</a>
+        <a class="www" href="#">Ссылка</a>
+        <a class="www" href="#">Ссылка</a>
+    </div>
+
+
+    <h2>Задание 5</h2>
+    <p id="d1">Привет, мир!</p>
+	<p id="d2">Привет, мир!</p>
+	<p id="d3">Привет, мир!</p>
+
+    <h2>Задание 6</h2>
+    <div id="d6"></div>
+
+    <h2>Задание 7</h2>
+    <div id="d7"></div>
+    
+    <h2>Задание 8</h2>
+    <div id="d8"></div>
+
+    <h2>Задание 9</h2>
+    <div id="d9"></div>
+
+    <h2>Задание 10</h2>
+    <div id="d10"></div>
+
+    <h2>Задание 11</h2>
+    <div id="d11"></div>
+
+    <h2>Задание 12</h2>
+    <div id="d12"></div>
+
+    <h2>Задание 13</h2>
+    <p id="d21">
+		<a href="#">ссылка</a>
+	</p>
+	<p id="d22">
+		<a href="#">ссылка</a>
+	</p>
+	<p id="d23">
+		<a href="#">ссылка</a>
+</body>
+
+<style>
+    #test a:link, #test a:visited  {
+        text-decoration: none;
+        color: red;
+    }
+    #test a:hover {
+        text-decoration: underline;
+        color: blue;
+    }
+
+    a:link.www, a:visited.www  {
+        color: blue;
+    }
+    a:hover.www {
+        text-decoration: none;
+    }
+
+    #test a:link.www{
+        color: red;
+    }
+    #test a:visited.www {
+        color: green;
+    }
+    #test a:hover.www {
+        color: blue;
+    }
+
+    .eee a:link.www{
+        color: red;
+    }
+    .eee a:visited.www {
+        color: green;
+    }
+    .eee a:hover.www {
+        color: blue;
+    }
+
+    #d1 {
+        text-decoration: underline;
+    }
+    #d2 {
+        text-decoration: line-through;
+    }
+    #d3 {
+        text-decoration: overline;
+    }
+
+    #d6 {
+        border: 1px solid red;
+        width: 200px;
+        height: 200px;
+    }
+
+    #d7 {
+        border: 1px dotted blue;
+        width: 500px;
+        height: 200px;
+    }
+
+    #d8 {
+        border: 1px dashed green;
+        width: 100px;
+        height: 100px;
+    }
+
+    #d9 {
+        border-top: 1px solid blue;
+        border-bottom: 1px solid red;
+        border-left: 1px solid black;
+        border-right: 1px solid green;
+        border-radius: 20px;
+        width: 500px;
+        height: 200px;
+    }
+
+    #d10 {
+        border: 1px dashed green;
+        border-radius: 10px 30px;
+        width: 300px;
+        height: 300px;        
+    }
+
+    #d11 {
+        border: 1px dotted green;
+        border-radius: 10px 30px 50px 70px;
+        width: 300px;
+        height: 300px;
+    }
+
+    #d12 {
+        border: 1px solid red;
+        border-radius: 50px;
+        width: 100px;
+        height: 100px;
+    }
+
+    #d21 a:link, #d21 a:visited {
+        text-decoration: none;
+        color: blue;
+    }
+    #d21 a:hover {
+        text-decoration: underline;
+        color: green;
+    }
+
+    #d22 a:link, #d22 a:visited {
+        text-decoration: underline;
+        color: red;
+    }
+    #d22 a:hover {
+        text-decoration: line-through;
+        color: blue;
+    }
+
+    #d23 a:link, #d23 a:visited {
+        text-decoration: none;
+        color: black;
+    }
+    #d23 a:hover {
+        color: red;
+        text-decoration: overline;
+    }
+</style>
+</html>
