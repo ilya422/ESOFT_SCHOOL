@@ -35,12 +35,10 @@ function load_game() {
 }
 
 function add_n() {
-    if (n > 2) {
-        n++;
-        reset();
-        document.querySelector(".game-field").innerHTML = "";
-        load_game();
-    }
+    n++;
+    reset();
+    document.querySelector(".game-field").innerHTML = "";
+    load_game();
 }
 
 function delete_n() {
@@ -58,6 +56,7 @@ function reset() {
     game_end = false;
     for (i = 0; i < cells.length; i++) {
         cells[i].innerHTML = "";
+        cells[i].id = "null";
         cells[i].style.background = "white";
     }
 }
