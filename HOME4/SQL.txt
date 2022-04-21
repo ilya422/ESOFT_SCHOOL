@@ -1,0 +1,219 @@
+//Создание пользователя
+CREATE ROLE tictactoe WITH
+  LOGIN
+  NOSUPERUSER
+  INHERIT
+  NOCREATEDB
+  NOCREATEROLE
+  NOREPLICATION
+  ENCRYPTED PASSWORD 'Passw0rd';
+
+//Создание базы данных
+CREATE DATABASE tictactoe
+    WITH 
+    OWNER = tictactoe
+    ENCODING = 'UTF8'
+    CONNECTION LIMIT = -1;
+
+//Создание таблиц
+CREATE TABLE users(
+  id SERIAL PRIMARY KEY,
+  login VARCHAR UNIQUE NOT NULL,
+  name VARCHAR NOT NULL
+);
+ 
+CREATE TABLE games(
+  id SERIAL PRIMARY KEY,
+  player_one_id INTEGER NOT NULL,
+  player_two_id INTEGER NOT NULL,
+  RESULT VARCHAR NULL
+);
+ 
+CREATE TABLE turns(
+  id SERIAL PRIMARY KEY,
+  game_id INTEGER NOT NULL,
+  "order" INTEGER NOT NULL,
+  POSITION VARCHAR NULL
+);
+
+//Добавление внешних ключей
+ALTER TABLE games
+	ADD CONSTRAINT fk_games_users1 
+		FOREIGN KEY (player_one_id) REFERENCES users (id);
+
+ALTER TABLE games
+	ADD CONSTRAINT fk_games_users2
+		FOREIGN KEY (player_two_id) REFERENCES users (id);
+
+ALTER TABLE turns
+	ADD CONSTRAINT fk_turns_games
+		FOREIGN KEY (game_id) REFERENCES games (id);
+
+//Заполнение пользователей
+INSERT INTO public.users(
+	login, name)
+	VALUES ('ilya422', 'Илья Баринов');
+
+INSERT INTO public.users(
+	login, name)
+	VALUES ('aleksStud', 'Александра Стадник');
+	
+INSERT INTO public.users(
+	login, name)
+	VALUES ('Sych', 'Семён Крюков');
+	
+INSERT INTO public.users(
+	login, name)
+	VALUES ('Versike', 'Дамир Биримжанов');
+	
+INSERT INTO public.users(
+	login, name)
+	VALUES ('lisa', 'Елизваета Фалеева');
+
+//Заполнение игр
+INSERT INTO public.games(
+	player_one_id, player_two_id, result)
+	VALUES (1, 2, 'x');
+	
+INSERT INTO public.games(
+	player_one_id, player_two_id, result)
+	VALUES (1, 3, 'x');
+	
+INSERT INTO public.games(
+	player_one_id, player_two_id, result)
+	VALUES (1, 4, 'x');
+	
+INSERT INTO public.games(
+	player_one_id, player_two_id, result)
+	VALUES (1, 5, 'x');
+	
+INSERT INTO public.games(
+	player_one_id, player_two_id, result)
+	VALUES (1, 6, 'x');
+
+INSERT INTO public.games(
+	player_one_id, player_two_id, result)
+	VALUES (2, 3, 'x');
+	
+INSERT INTO public.games(
+	player_one_id, player_two_id, result)
+	VALUES (2, 4, 'draw');
+	
+INSERT INTO public.games(
+	player_one_id, player_two_id, result)
+	VALUES (2, 5, 'x');
+	
+INSERT INTO public.games(
+	player_one_id, player_two_id, result)
+	VALUES (2, 6, 'x');
+
+INSERT INTO public.games(
+	player_one_id, player_two_id, result)
+	VALUES (3, 4, 'o');
+	
+INSERT INTO public.games(
+	player_one_id, player_two_id, result)
+	VALUES (3, 5, 'x');
+	
+INSERT INTO public.games(
+	player_one_id, player_two_id, result)
+	VALUES (3, 6, 'x');
+
+INSERT INTO public.games(
+	player_one_id, player_two_id, result)
+	VALUES (4, 5, 'o');
+	
+INSERT INTO public.games(
+	player_one_id, player_two_id, result)
+	VALUES (4, 6, 'o');
+
+INSERT INTO public.games(
+	player_one_id, player_two_id, result)
+	VALUES (5, 6, 'draw');
+
+//Запрос на вывод кол-ва побед пользователя
+SELECT u.login as user, count(g.result) as win FROM games as g
+JOIN users u ON u.id = g.player_one_id OR u.id = g.player_two_id
+WHERE u.login = 'Sych'
+	AND (g.result = 'x' and u.id = g.player_one_id
+			OR g.result = 'o' and u.id = g.player_two_id)
+GROUP BY u.login
+
+//Запрос на вывод кол-ва поражений пользователя
+SELECT u.login as user, count(g.result) as lose FROM games as g
+JOIN users u ON u.id = g.player_one_id OR u.id = g.player_two_id
+WHERE u.login = 'Sych'
+	AND (g.result = 'o' and u.id = g.player_one_id
+			OR g.result = 'x' and u.id = g.player_two_id)
+GROUP BY u.login
+
+//Запрос на вывод кол-ва нечьих пользователя
+SELECT u.login as user, count(g.result) as lose FROM games as g
+JOIN users u ON u.id = g.player_one_id OR u.id = g.player_two_id
+WHERE u.login = 'Sych'
+	AND (g.result = 'draw' and u.id = g.player_one_id
+			OR g.result = 'draw' and u.id = g.player_two_id)
+GROUP BY u.login
+
+
+//Запрос на вывод топ-5 по победам
+SELECT u.login as user, count(g.result) as win FROM games as g
+JOIN users u ON u.id = g.player_one_id OR u.id = g.player_two_id
+WHERE g.result = 'x' and u.id = g.player_one_id
+			OR g.result = 'o' and u.id = g.player_two_id
+GROUP BY u.login
+ORDER BY win DESC LIMIT 5
+
+//Запрос на вывод топ-5 по поражением
+SELECT u.login as user, count(g.result) as lose FROM games as g
+JOIN users u ON u.id = g.player_one_id OR u.id = g.player_two_id
+WHERE g.result = 'o' and u.id = g.player_one_id
+			OR g.result = 'x' and u.id = g.player_two_id
+GROUP BY u.login
+ORDER BY lose DESC LIMIT 5
+
+//Запрос на вывод топ-5 по нечьим
+SELECT u.login as user, count(g.result) as draw FROM games as g
+JOIN users u ON u.id = g.player_one_id OR u.id = g.player_two_id
+WHERE g.result = 'draw' and u.id = g.player_one_id
+			OR g.result = 'draw' and u.id = g.player_two_id
+GROUP BY u.login
+ORDER BY lose DESC LIMIT 5
+
+
+//Запрос на вывод полной статистики пользователя
+SELECT t1.user, t1.win, t2.lose, t3.draw FROM 
+(SELECT u.login as user, count(g.result) as win FROM games as g
+JOIN users u ON u.id = g.player_one_id OR u.id = g.player_two_id
+WHERE u.login = 'Sych'
+	AND (g.result = 'x' and u.id = g.player_one_id
+			OR g.result = 'o' and u.id = g.player_two_id)
+GROUP BY u.login) as t1
+
+LEFT JOIN 
+(SELECT u.login as user, count(g.result) as lose FROM games as g
+JOIN users u ON u.id = g.player_one_id OR u.id = g.player_two_id
+WHERE u.login = 'Sych'
+	AND (g.result = 'o' and u.id = g.player_one_id
+			OR g.result = 'x' and u.id = g.player_two_id)
+GROUP BY u.login) as t2
+ON t1.user = t2.user
+
+LEFT JOIN 
+(SELECT u.login as user, count(g.result) as draw FROM games as g
+JOIN users u ON u.id = g.player_one_id OR u.id = g.player_two_id
+WHERE u.login = 'Sych'
+	AND (g.result = 'draw' and u.id = g.player_one_id
+			OR g.result = 'draw' and u.id = g.player_two_id)
+GROUP BY u.login) as t3
+ON t1.user = t3.user
+
+
+//Удаление id и добавление составного ключа
+ALTER TABLE turns
+	DROP COLUMN id;
+
+ALTER TABLE turns
+	ADD PRIMARY KEY(game_id, "order");
+
+	
